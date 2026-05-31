@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة إدارة عيادة الأمان الطبية المتقدمة - النسخة النهائية</title>
+    <title>بوابة إدارة عيادة الأمان الطبية المتقدمة - النسخة الإحترافية</title>
     <style>
-        /* نظام الألوان والمتغيرات الرسمية - الافتراضي: مود الفاتح */
         :root {
             --bg-primary: #f4f7f6;
             --bg-surface: #ffffff;
@@ -23,9 +22,9 @@
             --status-bg-waiting: #fef5e7;
             --status-bg-active: #eaf2f8;
             --status-bg-done: #e8f8f5;
+            --danger-color: #e74c3c;
         }
 
-        /* نظام ألوان مود الداكن (Dark Mode) */
         [data-theme="dark"] {
             --bg-primary: #0f172a;
             --bg-surface: #1e293b;
@@ -61,15 +60,15 @@
             overflow-x: hidden;
         }
 
-        /* القائمة الجانبية الرسمية للعيادة */
         .sidebar {
-            width: 260px;
+            width: 280px;
             background-color: var(--bg-sidebar);
             color: var(--text-sidebar);
             padding: 25px 15px;
             display: flex;
             flex-direction: column;
             border-left: 1px solid var(--border-color);
+            flex-shrink: 0;
         }
 
         .clinic-brand {
@@ -78,7 +77,7 @@
             gap: 12px;
             padding-bottom: 25px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .clinic-brand svg {
@@ -90,25 +89,33 @@
         .clinic-name {
             font-size: 18px;
             font-weight: bold;
-            letter-spacing: 0.5px;
+        }
+
+        .menu-section-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin: 15px 10px 8px 0;
+            font-weight: bold;
         }
 
         .menu-list {
             list-style: none;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 4px;
         }
 
         .menu-item a {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: space-between;
             color: var(--text-sidebar);
             text-decoration: none;
-            padding: 12px 15px;
-            border-radius: 8px;
-            font-size: 14px;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 13px;
             font-weight: 500;
             cursor: pointer;
         }
@@ -116,10 +123,20 @@
         .menu-item.active a, .menu-item a:hover {
             background-color: rgba(255, 255, 255, 0.05);
             color: var(--accent-color);
+        }
+        
+        .menu-item.active a {
             border-right: 4px solid var(--accent-color);
         }
 
-        /* منطقة المحتوى الرئيسي */
+        .badge-count {
+            background-color: rgba(255,255,255,0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            color: inherit;
+        }
+
         .main-content {
             flex: 1;
             display: flex;
@@ -127,7 +144,6 @@
             min-width: 0;
         }
 
-        /* الهيدر العلوي */
         .header {
             background-color: var(--bg-surface);
             height: 70px;
@@ -140,7 +156,7 @@
         }
 
         .page-title h1 {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
         }
 
@@ -150,24 +166,15 @@
             gap: 20px;
         }
 
-        /* زر تحويل المود */
         .theme-toggle-btn {
             background-color: transparent;
             border: 1px solid var(--border-color);
             padding: 8px 16px;
             border-radius: 20px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             color: var(--text-primary);
             font-size: 13px;
             font-weight: 600;
-            outline: none;
-        }
-
-        .theme-toggle-btn:hover {
-            background-color: var(--border-color);
         }
 
         .user-profile {
@@ -175,7 +182,6 @@
             align-items: center;
             gap: 10px;
             font-size: 14px;
-            font-weight: 500;
         }
 
         .user-avatar {
@@ -191,12 +197,11 @@
         }
 
         .dashboard-container {
-            padding: 30px;
+            padding: 25px;
             overflow-y: auto;
             flex: 1;
         }
 
-        /* بار البحث العلوي */
         .search-section {
             background-color: var(--bg-surface);
             padding: 15px 20px;
@@ -204,14 +209,10 @@
             border: 1px solid var(--border-color);
             box-shadow: 0 4px 6px var(--shadow-color);
             margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
         }
 
         .search-wrapper {
             position: relative;
-            flex: 1;
         }
 
         .search-input {
@@ -225,27 +226,20 @@
             outline: none;
         }
 
-        .search-input:focus {
-            border-color: var(--accent-color);
-            box-shadow: 0 0 0 3px rgba(0, 168, 150, 0.15);
-        }
-
         .search-icon {
             position: absolute;
             right: 15px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
-            pointer-events: none;
         }
 
-        /* حاوي جدول البيانات والزر المساعد */
         .table-container {
             background-color: var(--bg-surface);
             border-radius: 10px;
             border: 1px solid var(--border-color);
             box-shadow: 0 4px 6px var(--shadow-color);
-            overflow-x: auto;
+            overflow: hidden;
         }
 
         .table-header-bar {
@@ -257,54 +251,48 @@
         }
 
         .table-title {
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 600;
         }
 
-        /* زر إضافة مريض جديد الاحترافي */
         .btn-add-patient {
             background-color: var(--accent-color);
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
             box-shadow: 0 2px 4px rgba(0, 168, 150, 0.2);
         }
 
-        .btn-add-patient:hover {
-            background-color: var(--accent-hover);
+        .btn-add-patient:hover { background-color: var(--accent-hover); }
+
+        .responsive-table-wrapper {
+            overflow-x: auto;
+            width: 100%;
         }
 
         .clinic-table {
             width: 100%;
             border-collapse: collapse;
             text-align: right;
-            min-width: 1100px;
+            min-width: 1300px;
         }
 
         .clinic-table th {
-            background-color: rgba(0, 0, 0, 0.02);
-            padding: 15px 20px;
+            background-color: rgba(0, 0, 0, 0.01);
+            padding: 14px 18px;
             font-size: 13px;
             font-weight: 600;
             color: var(--text-muted);
-            border-bottom: 1px solid var(--border-color);
-            white-space: nowrap;
-        }
-
-        [data-theme="dark"] .clinic-table th {
-            background-color: rgba(255, 255, 255, 0.02);
+            border-bottom: 2px solid var(--border-color);
         }
 
         .clinic-table td {
-            padding: 16px 20px;
-            font-size: 14px;
+            padding: 14px 18px;
+            font-size: 13.5px;
             border-bottom: 1px solid var(--border-color);
             color: var(--text-primary);
             vertical-align: middle;
@@ -317,198 +305,127 @@
             font-style: italic;
         }
 
-        /* أوسمة الحالات */
         .status-badge {
             display: inline-block;
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
-            text-align: center;
-            white-space: nowrap;
         }
 
         .status-waiting { background-color: var(--status-bg-waiting); color: var(--status-waiting); }
         .status-active { background-color: var(--status-bg-active); color: var(--status-active); }
         .status-done { background-color: var(--status-bg-done); color: var(--status-done); }
 
-        .patient-seq {
-            background-color: var(--border-color);
-            width: 28px;
-            height: 28px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
+        .med-history-tag {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--danger-color);
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: bold;
+            display: inline-block;
+        }
+
+        .view-xray-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            color: var(--accent-color);
+        }
+
+        .timeline-counter {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .finance-text {
+            font-family: monospace;
             font-weight: bold;
             font-size: 13px;
         }
 
-        .preview-img {
-            width: 55px;
-            height: 55px;
-            border-radius: 6px;
-            object-fit: cover;
-            border: 1px solid var(--border-color);
-            cursor: zoom-in;
-        }
-
-        /* تصميم النافذة المنبثقة لإدخال بيانات المريض (Modal) */
+        /* النافذة المنبثقة */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
+            display: flex; align-items: center; justify-content: center;
+            z-index: 1000; opacity: 0; pointer-events: none;
             transition: opacity 0.25s ease;
         }
 
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
+        .modal-overlay.active { opacity: 1; pointer-events: auto; }
 
         .modal-box {
             background-color: var(--bg-surface);
-            width: 550px;
-            max-width: 90%;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            border: 1px solid var(--border-color);
-            overflow: hidden;
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from { transform: translateY(20px); }
-            to { transform: translateY(0); }
+            width: 650px; max-width: 95%;
+            border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color); overflow: hidden;
         }
 
         .modal-header {
-            padding: 20px;
-            border-bottom: 1px solid var(--border-color);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: rgba(0, 0, 0, 0.01);
+            padding: 18px; border-bottom: 1px solid var(--border-color);
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        .modal-title {
-            font-size: 16px;
-            font-weight: 600;
-        }
+        .modal-title { font-size: 15px; font-weight: 600; }
+        .modal-close { background: none; border: none; font-size: 22px; color: var(--text-muted); cursor: pointer; }
+        .modal-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 75vh; overflow-y: auto; }
+        .form-group { display: flex; flex-direction: column; gap: 5px; }
+        .form-group label { font-size: 12px; font-weight: 600; }
+        .form-control { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; background-color: var(--bg-primary); color: var(--text-primary); font-size: 13.5px; outline: none; }
+        .form-control:focus { border-color: var(--accent-color); }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-row-three { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+        .modal-footer { padding: 15px 20px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px; }
+        .btn-secondary { background-color: transparent; border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 6px; cursor: pointer; color: var(--text-primary); font-weight: 600; }
+        .btn-submit { background-color: var(--accent-color); color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
 
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 22px;
+        /* سجل التاريخ الطبي والخط الزمني للزيارات داخل الخلايا */
+        .visit-history-box {
+            font-size: 11px;
             color: var(--text-muted);
-            cursor: pointer;
+            border-top: 1px dashed var(--border-color);
+            margin-top: 5px;
+            padding-top: 4px;
         }
 
-        .modal-body {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            max-height: 70vh;
-            overflow-y: auto;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-group label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 6px;
-            background-color: var(--bg-primary);
-            color: var(--text-primary);
-            font-size: 14px;
-            outline: none;
-        }
-
-        .form-control:focus {
-            border-color: var(--accent-color);
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        .modal-footer {
-            padding: 15px 20px;
-            border-top: 1px solid var(--border-color);
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            background-color: rgba(0, 0, 0, 0.01);
-        }
-
-        .btn-secondary {
-            background-color: transparent;
-            border: 1px solid var(--border-color);
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-
-        .btn-submit {
-            background-color: var(--accent-color);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .btn-submit:hover { background-color: var(--accent-hover); }
-
-        .footer {
-            margin-top: 40px;
-            text-align: center;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
+        .footer { margin-top: 40px; text-align: center; font-size: 12px; color: var(--text-muted); }
     </style>
 </head>
 <body>
 
-    <!-- القائمة الجانبية -->
+    <!-- القائمة الجانبية الذكية للفرز والفلاتر المتقدمة -->
     <aside class="sidebar">
         <div class="clinic-brand">
-            <svg viewBox="0 0 24 24">
-                <path d="M19 10.5h-5.5V5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v5.5H5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h5.5V19c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-5.5H19c0-.83.67-1.5 1.5-1.5s-.67-1.5-1.5-1.5z"/>
-            </svg>
+            <svg viewBox="0 0 24 24"><path d="M19 10.5h-5.5V5c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v5.5H5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5h5.5V19c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-5.5H19c0-.83.67-1.5 1.5-1.5s-.67-1.5-1.5-1.5z"/></svg>
             <span class="clinic-name">عيادة الأمان الطبية</span>
         </div>
-        <ul class="menu-list" id="sidebarMenu">
-            <li class="menu-item active" data-filter="all"><a href="javascript:void(0);"><span>لوحة التحكم الرئيسية</span></a></li>
-            <li class="menu-item" data-filter="all"><a href="javascript:void(0);"><span>تسلسل السجلات</span></a></li>
-            <li class="menu-item" data-filter="xray"><a href="javascript:void(0);"><span>الأشعة والتحاليل</span></a></li>
-            <li class="menu-item" data-filter="meds"><a href="javascript:void(0);"><span>الصيدلية والادوية</span></a></li>
+        
+        <div class="menu-section-title">العرض العام</div>
+        <ul class="menu-list">
+            <li class="menu-item active" data-filter-type="all" data-filter-val="all"><a href="javascript:void(0);"><span>كل ملفات المرضى</span> <span class="badge-count" id="count-all">0</span></a></li>
+        </ul>
+
+        <div class="menu-section-title">فصل وفرز حسب نوع العلاج</div>
+        <ul class="menu-list" id="treatmentMenu">
+            <li class="menu-item" data-filter-type="exam" data-filter-val="حشوة ضوئية"><a href="javascript:void(0);"><span>مرضى الحشوات</span> <span class="badge-count" id="count-h">0</span></a></li>
+            <li class="menu-item" data-filter-type="exam" data-filter-val="قلع سن"><a href="javascript:void(0);"><span>مرضى القلع والجراحة</span> <span class="badge-count" id="count-q">0</span></a></li>
+            <li class="menu-item" data-filter-type="exam" data-filter-val="تقويم أسنان"><a href="javascript:void(0);"><span>مرضى التقويم</span> <span class="badge-count" id="count-t">0</span></a></li>
+            <li class="menu-item" data-filter-type="exam" data-filter-val="تركيب الأسنان"><a href="javascript:void(0);"><span>التركيبات والجسور والطخم</span> <span class="badge-count" id="count-tar">0</span></a></li>
+        </ul>
+
+        <div class="menu-section-title">حسب حالة التواجد الحالية</div>
+        <ul class="menu-list" id="statusMenu">
+            <li class="menu-item" data-filter-type="status" data-filter-val="في الانتظار"><a href="javascript:void(0);"><span>قائمة الانتظار ⏱️</span> <span class="badge-count" id="count-wait">0</span></a></li>
+            <li class="menu-item" data-filter-type="status" data-filter-val="جاري الفحص الآن"><a href="javascript:void(0);"><span>داخل العيادة 🩺</span> <span class="badge-count" id="count-now">0</span></a></li>
+            <li class="menu-item" data-filter-type="status" data-filter-val="مكتمل الفحص"><a href="javascript:void(0);"><span>اكتمل علاجهم ✅</span> <span class="badge-count" id="count-done">0</span></a></li>
         </ul>
     </aside>
 
@@ -516,12 +433,10 @@
     <main class="main-content">
         <header class="header">
             <div class="page-title">
-                <h1>نظام المتابعة والتسلسل الرقمي الموحد</h1>
+                <h1>نظام المتابعة والتسلسل الرقمي الموحد لطب الأسنان</h1>
             </div>
             <div class="header-actions">
-                <button class="theme-toggle-btn" id="themeToggle" type="button">
-                    <span id="themeText">المود الداكن 🌙</span>
-                </button>
+                <button class="theme-toggle-btn" id="themeToggle" type="button"><span id="themeText">المود الداكن 🌙</span></button>
                 <div class="user-profile">
                     <span>د. ليث حسين حسن</span>
                     <div class="user-avatar">ل</div>
@@ -530,43 +445,43 @@
         </header>
 
         <div class="dashboard-container">
-            <!-- بار البحث العلوي -->
+            <!-- بار البحث العلوي الفوري -->
             <section class="search-section">
                 <div class="search-wrapper">
                     <span class="search-icon">🔍</span>
-                    <input type="text" id="patientSearch" class="search-input" placeholder="اكتب اسم المريض للبحث الفوري في قائمة السجلات الحالية...">
+                    <input type="text" id="patientSearch" class="search-input" placeholder="ابحث باسم المريض، نوع العلاج، أو العارض الصحي الدائم...">
                 </div>
             </section>
 
-            <!-- جدول البيانات الشامل -->
+            <!-- جدول البيانات الاحترافي الشامل للعيادة -->
             <div class="table-container">
                 <div class="table-header-bar">
-                    <span class="table-title" id="tableTitle">سجلات المرضى ومتابعة الحالات الطبية</span>
-                    <button class="btn-add-patient" id="openModalBtn">
-                        <span>إضافة مريض جديد ➕</span>
-                    </button>
+                    <span class="table-title" id="tableTitle">سجلات وفواتير ملفات المرضى الدائمين</span>
+                    <button class="btn-add-patient" id="openModalBtn"><span>إضافة مريض / زيارة جديدة ➕</span></button>
                 </div>
-                <table class="clinic-table" id="clinicTable">
-                    <thead>
-                        <tr>
-                            <th>التسلسل</th>
-                            <th>التاريخ</th>
-                            <th>اسم المريض</th>
-                            <th>العمر</th>
-                            <th>نوع الفحص / الحشوة</th>
-                            <th>الأشعة (X-Ray)</th>
-                            <th>الحالة</th>
-                            <th>الأدوية والعلاجات</th>
-                            <th>عنوان التواصل</th>
-                            <th>الملاحظات</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        <tr id="noDataRow">
-                            <td colspan="10" class="no-data-msg">لا توجد سجلات مرضى حالياً، اضغط على زر "إضافة مريض جديد" للبدء.</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="responsive-table-wrapper">
+                    <table class="clinic-table" id="clinicTable">
+                        <thead>
+                            <tr>
+                                <th>تسلسل الملف</th>
+                                <th>اسم المريض الكامل</th>
+                                <th>العمر</th>
+                                <th>التاريخ الطبي العام (Medical History)</th>
+                                <th>حالة الزيارة الأحدث</th>
+                                <th>النوع والإجراء</th>
+                                <th>الأشعة</th>
+                                <th>العلاجات الموصوفة</th>
+                                <th>الحسابات والديون (إجمالي / واصل / متبقي)</th>
+                                <th>التواصل والملاحظات الجانبية</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr id="noDataRow">
+                                <td colspan="10" class="no-data-msg">لا توجد سجلات مرضى حالياً، اضغط على زر "إضافة مريض جديد" للبدء.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <footer class="footer">
@@ -575,72 +490,87 @@
         </div>
     </main>
 
-    <!-- النافذة المنبثقة (Modal) لإدخال بيانات المريض -->
+    <!-- النافذة المنبثقة لإدخال البيانات -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-box">
             <div class="modal-header">
-                <span class="modal-title">إضافة سجل مريض جديد لنظام الأسنان</span>
+                <span class="modal-title">إدخال زيارة / مريض جديد (توليد ملف دائم تلقائي)</span>
                 <button class="modal-close" id="closeModalBtn">&times;</button>
             </div>
             <form id="addPatientForm">
                 <div class="modal-body">
                     <div class="form-row">
                         <div class="form-group">
-                            <label>اسم المريض الكامل *</label>
-                            <input type="text" id="pName" class="form-control" required placeholder="مثال: محمد علي">
+                            <label>اسم المريض الكامل (ثلاثي دقيق لتجنب تكرار الملف) *</label>
+                            <input type="text" id="pName" class="form-control" required placeholder="مثال: علي محمد محمود">
                         </div>
                         <div class="form-group">
-                            <label>تاريخ المراجعة *</label>
-                            <input type="date" id="pDate" class="form-control" required>
+                            <label>العمر *</label>
+                            <input type="text" id="pAge" class="form-control" required placeholder="مثال: 24">
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label>التاريخ الطبي العام (الأمراض المزمنة والحساسية) *</label>
+                        <input type="text" id="pMedHistory" class="form-control" required placeholder="مثال: سكري، ضغط، حساسية بنسلين (أو اكتب: سليم لا يعاني)">
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>العمر *</label>
-                            <input type="text" id="pAge" class="form-control" required placeholder="مثال: 26 سنة">
-                        </div>
-                        <div class="form-group">
-                            <label>نوع الفحص / الإجراء الحالي *</label>
+                            <label>نوع الفحص والإجراء الحالي *</label>
                             <select id="pExaminationType" class="form-control">
                                 <option value="فحص عام وتنظيف للأسنان">فحص عام وتنظيف للأسنان</option>
                                 <option value="حشوة ضوئية تجميلية (Composite)">حشوة ضوئية تجميلية (Composite)</option>
                                 <option value="حشوة بلاتين اعتيادية (Amalgam)">حشوة بلاتين اعتيادية (Amalgam)</option>
                                 <option value="حشوة جذر (عصب سن)">حشوة جذر (عصب سن)</option>
                                 <option value="قلع سن / جراحة لثة">قلع سن / جراحة لثة</option>
-                                <option value="تقويم أسنان / تركيبات وتيجان">تقويم أسنان / تركيبات وتيجان</option>
+                                <option value="تقويم أسنان مخصص">تقويم أسنان مخصص</option>
+                                <option value="تركيب الأسنان والجسور والطخم المتحرك">تركيب الأسنان والجسور والطخم المتحرك</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label>حالة المريض التدفقية الفورية *</label>
+                            <select id="pStatus" class="form-control">
+                                <option value="في الانتظار">في الانتظار ⏱️</option>
+                                <option value="جاري الفحص الآن">جاري الفحص الآن 🩺</option>
+                                <option value="مكتمل الفحص">مكتمل الفحص ✅</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>أشعة الأسنان (اضغط لرفع صورة الأشعة المرفقة إن وجدت)</label>
+                        <input type="file" id="pXray" class="form-control" accept="image/*">
+                    </div>
+                    <div class="form-group">
+                        <label>الوصفة الدوائية للزيارة الحالية</label>
+                        <input type="text" id="pMeds" class="form-control" placeholder="الأدوية الموصوفة للزيارة الحالية...">
+                    </div>
+                    <div class="form-row-three">
+                        <div class="form-group">
+                            <label>الكلفة الإجمالية (د.ع) *</label>
+                            <input type="number" id="pCost" class="form-control" value="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>المبلغ الواصل المدفوع *</label>
+                            <input type="number" id="pPaid" class="form-control" value="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label>المتبقي (الديون)</label>
+                            <input type="text" id="pRest" class="form-control" style="font-family:monospace;" readonly value="0">
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
-                            <label>حالة المراجعة التدفقية *</label>
-                            <select id="pStatus" class="form-control">
-                                <option value="في الانتظار">في الانتظار</option>
-                                <option value="جاري الفحص الآن">جاري الفحص الآن</option>
-                                <option value="مكتمل الفحص">مكتمل الفحص</option>
-                            </select>
+                            <label>رقم التواصل والاتصال *</label>
+                            <input type="text" id="pContact" class="form-control" required placeholder="07XXXXXXXX">
                         </div>
                         <div class="form-group">
-                            <label>أشعة الأسنان (اختياري)</label>
-                            <input type="file" id="pXray" class="form-control" accept="image/*">
+                            <label>ملاحظات الطبيب الجانبية وأرقام الأسنان</label>
+                            <input type="text" id="pNotes" class="form-control" placeholder="رقم السن أو الجلسة الحالية...">
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label>الأدوية والوصفة العلاجية الموصوفة</label>
-                        <input type="text" id="pMeds" class="form-control" placeholder="مثال: Amoxicillin 500mg + Profen">
-                    </div>
-                    <div class="form-group">
-                        <label>عنوان التواصل ورقم الاتصال *</label>
-                        <input type="text" id="pContact" class="form-control" required placeholder="مثال: بغداد - 07XXXXXXXX">
-                    </div>
-                    <div class="form-group">
-                        <label>ملاحظات الطبيب (أرقام الأسنان أو تفاصيل إضافية)</label>
-                        <textarea id="pNotes" class="form-control" rows="3" placeholder="اكتب تفاصيل السن المعالج أو الملاحظات هنا..."></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn-secondary" id="cancelModalBtn">إلغاء</button>
-                    <button type="submit" class="btn-submit">حفظ السجل وتوليد التسلسل</button>
+                    <button type="submit" class="btn-submit">حفظ وتحديث السجلات</button>
                 </div>
             </form>
         </div>
@@ -648,32 +578,36 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            // إدارة السيم/المود الداكن والفاتح
+            // نظام الثيم والمود
             const themeToggleBtn = document.getElementById('themeToggle');
             const themeText = document.getElementById('themeText');
             const currentTheme = localStorage.getItem('theme') || 'light';
             document.documentElement.setAttribute('data-theme', currentTheme);
-            updateButtonText(currentTheme);
+            themeText.textContent = (currentTheme === 'dark') ? 'المود الفاتح ☀️' : 'المود الداكن 🌙';
 
             themeToggleBtn.addEventListener('click', function() {
                 let theme = document.documentElement.getAttribute('data-theme');
-                if (theme === 'dark') {
-                    document.documentElement.setAttribute('data-theme', 'light');
-                    localStorage.setItem('theme', 'light');
-                    updateButtonText('light');
-                } else {
-                    document.documentElement.setAttribute('data-theme', 'dark');
-                    localStorage.setItem('theme', 'dark');
-                    updateButtonText('dark');
-                }
+                let targetTheme = (theme === 'dark') ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', targetTheme);
+                localStorage.setItem('theme', targetTheme);
+                themeText.textContent = (targetTheme === 'dark') ? 'المود الفاتح ☀️' : 'المود الداكن 🌙';
             });
 
-            function updateButtonText(theme) {
-                themeText.textContent = (theme === 'dark') ? 'المود الفاتح ☀️' : 'المود الداكن 🌙';
-            }
+            // حساب المتبقي تلقائياً في الفورم أثناء الكتابة
+            const costInput = document.getElementById('pCost');
+            const paidInput = document.getElementById('pPaid');
+            const restInput = document.getElementById('pRest');
 
-            // مصفوفة حفظ المرضى محلياً لمنع طيران البيانات عند التحديث
-            let patientsData = JSON.parse(localStorage.getItem('clinic_patients')) || [];
+            function calculateRest() {
+                const cost = parseFloat(costInput.value) || 0;
+                const paid = parseFloat(paidInput.value) || 0;
+                restInput.value = (cost - paid).toLocaleString() + " د.ع";
+            }
+            costInput.addEventListener('input', calculateRest);
+            paidInput.addEventListener('input', calculateRest);
+
+            // مصفوفة المرضى الدائمين المسترجعة من الذاكرة المحلية
+            let patientsData = JSON.parse(localStorage.getItem('permanent_dentist_records')) || [];
 
             const modalOverlay = document.getElementById('modalOverlay');
             const openModalBtn = document.getElementById('openModalBtn');
@@ -682,169 +616,199 @@
             const addPatientForm = document.getElementById('addPatientForm');
             const tableBody = document.getElementById('tableBody');
             const noDataRow = document.getElementById('noDataRow');
-            const dateInput = document.getElementById('pDate');
 
-            // فتح النافذة المنبثقة ووضع تاريخ اليوم تلقائياً كتسهيل للإدخال
-            openModalBtn.addEventListener('click', () => {
-                modalOverlay.classList.add('active');
-                const today = new Date().toISOString().split('T')[0];
-                dateInput.value = today;
-            });
-            
-            function closeModal() {
-                modalOverlay.classList.remove('active');
-                addPatientForm.reset();
-            }
-            
+            openModalBtn.addEventListener('click', () => { modalOverlay.classList.add('active'); calculateRest(); });
+            function closeModal() { modalOverlay.classList.remove('active'); addPatientForm.reset(); }
             closeModalBtn.addEventListener('click', closeModal);
             cancelModalBtn.addEventListener('click', closeModal);
 
-            // عرض البيانات المحفوظة فور فتح الصفحة
             renderTable();
+            updateSidebarBadges();
 
-            // عند تقديم فورم إضافة مريض
+            // معالجة وحفظ الفورم للزيارة
             addPatientForm.addEventListener('submit', function(e) {
                 e.preventDefault();
 
                 const name = document.getElementById('pName').value.trim();
-                const date = document.getElementById('pDate').value;
                 const age = document.getElementById('pAge').value.trim();
+                const medHistory = document.getElementById('pMedHistory').value.trim();
                 const examType = document.getElementById('pExaminationType').value;
                 const status = document.getElementById('pStatus').value;
-                const meds = document.getElementById('pMeds').value.trim() || 'لا يوجد';
+                const meds = document.getElementById('pMeds').value.trim() || 'لا يوجد أدوية حالياً';
+                const cost = parseFloat(costInput.value) || 0;
+                const paid = parseFloat(paidInput.value) || 0;
+                const rest = cost - paid;
                 const contact = document.getElementById('pContact').value.trim();
                 const notes = document.getElementById('pNotes').value.trim() || 'لا توجد ملاحظات';
                 const xrayFile = document.getElementById('pXray').files[0];
 
+                // إنشاء التاريخ التلقائي الفوري بالوقت والساعة
+                const now = new Date();
+                const autoTimestamp = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} - ${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
+
                 if (xrayFile) {
                     const reader = new FileReader();
                     reader.onload = function(event) {
-                        savePatient(name, date, age, examType, status, meds, contact, notes, event.target.result);
+                        commitData(name, age, medHistory, examType, status, meds, cost, paid, rest, contact, notes, autoTimestamp, event.target.result);
                     };
                     reader.readAsDataURL(xrayFile);
                 } else {
-                    savePatient(name, date, age, examType, status, meds, contact, notes, null);
+                    commitData(name, age, medHistory, examType, status, meds, cost, paid, rest, contact, notes, autoTimestamp, null);
                 }
             });
 
-            function savePatient(name, date, age, examType, status, meds, contact, notes, xrayDataUrl) {
-                const newPatient = {
-                    id: patientsData.length + 1,
-                    name: name,
-                    date: date,
-                    age: age,
+            function commitData(name, age, medHistory, examType, status, meds, cost, paid, rest, contact, notes, timestamp, xrayData) {
+                // البحث عما إذا كان المريض يمتلك ملفاً دائماً مسبقاً (عن طريق الإسم)
+                let existingPatient = patientsData.find(p => p.name.toLowerCase() === name.toLowerCase());
+
+                const newVisit = {
+                    timestamp: timestamp,
                     examType: examType,
-                    status: status,
                     meds: meds,
-                    contact: contact,
+                    cost: cost,
+                    paid: paid,
+                    rest: rest,
                     notes: notes,
-                    xray: xrayDataUrl
+                    xray: xrayData
                 };
 
-                patientsData.push(newPatient);
-                localStorage.setItem('clinic_patients', JSON.stringify(patientsData));
-                
+                if (existingPatient) {
+                    // تحديث الملف الدائم وتكديس الزيارة الجديدة داخله
+                    existingPatient.age = age;
+                    existingPatient.medHistory = medHistory;
+                    existingPatient.status = status;
+                    existingPatient.contact = contact;
+                    existingPatient.visits.push(newVisit);
+                } else {
+                    // إنشاء ملف دائم جديد كلياً
+                    const newPatientRecord = {
+                        id: patientsData.length + 1,
+                        name: name,
+                        age: age,
+                        medHistory: medHistory,
+                        status: status,
+                        contact: contact,
+                        visits: [newVisit]
+                    };
+                    patientsData.push(newPatientRecord);
+                }
+
+                localStorage.setItem('permanent_dentist_records', JSON.stringify(patientsData));
                 renderTable();
+                updateSidebarBadges();
                 closeModal();
-                document.querySelector('[data-filter="all"]').click();
             }
 
-            // دالة بناء الجدول بالاعتماد على البيانات الحاضرة في الذاكرة المحلية
-            function renderTable() {
+            // بناء الجدول بذكاء وعرض الأيقونات والملفات الدائمة والزيارات المكدسة
+            function renderTable(filterType = 'all', filterVal = 'all') {
                 tableBody.innerHTML = '';
                 
-                if (patientsData.length === 0) {
+                // تصفية وعزل البيانات بناء على كود الفلترة المختار
+                let filteredData = patientsData.filter(p => {
+                    const lastVisit = p.visits[p.visits.length - 1];
+                    if (filterType === 'all') return true;
+                    if (filterType === 'status') return p.status === filterVal;
+                    if (filterType === 'exam') return lastVisit.examType.includes(filterVal);
+                    return true;
+                });
+
+                if (filteredData.length === 0) {
                     tableBody.appendChild(noDataRow);
                     noDataRow.style.display = '';
                     return;
                 }
 
-                patientsData.forEach(p => {
-                    const newRow = document.createElement('tr');
-                    newRow.setAttribute('data-has-xray', p.xray ? 'true' : 'false');
-                    newRow.setAttribute('data-has-meds', (p.meds !== 'لا يوجد' && p.meds !== '') ? 'true' : 'false');
+                noDataRow.style.display = 'none';
 
+                filteredData.forEach(p => {
+                    // جلب تفاصيل أحدث زيارة لعرضها بالوجهة الرئيسية
+                    const latest = p.visits[p.visits.length - 1];
+                    
+                    // حساب إجماليات الفواتير والديون التراكمية للمريض في ملفه
+                    let totalCost = 0, totalPaid = 0, totalRest = 0;
+                    p.visits.forEach(v => { totalCost += v.cost; totalPaid += v.paid; totalRest += v.rest; });
+
+                    const tr = document.createElement('tr');
+                    
                     let statusClass = 'status-waiting';
                     if (p.status === 'جاري الفحص الآن') statusClass = 'status-active';
                     if (p.status === 'مكتمل الفحص') statusClass = 'status-done';
 
-                    newRow.innerHTML = `
+                    tr.innerHTML = `
                         <td><div class="patient-seq">${p.id}</div></td>
-                        <td><span style="font-size:13px; font-weight:500;">${p.date}</span></td>
-                        <td class="patient-name"><strong>${p.name}</strong></td>
-                        <td>${p.age}</td>
-                        <td><span style="color:var(--accent-color); font-weight:600;">${p.examType}</span></td>
-                        <td class="xray-cell"></td>
+                        <td>
+                            <strong>${p.name}</strong> 
+                            <span class="timeline-counter">مجموع الزيارات: ${p.visits.length}</span>
+                            <div class="visit-history-box">⏳ أحدث زيارة: ${latest.timestamp}</div>
+                        </td>
+                        <td>${p.age} سنة</td>
+                        <td><span class="med-history-tag">${p.medHistory}</span></td>
                         <td><span class="status-badge ${statusClass}">${p.status}</span></td>
-                        <td class="meds-cell">${p.meds}</td>
-                        <td>${p.contact}</td>
-                        <td>${p.notes}</td>
+                        <td><span style="color:var(--accent-color); font-weight:600;">${latest.examType}</span></td>
+                        <td class="xray-action-cell" style="text-align:center;"></td>
+                        <td>${latest.meds}</td>
+                        <td>
+                            <div class="finance-text" style="color:var(--text-primary);">كلي: ${totalCost.toLocaleString()} د.ع</div>
+                            <div class="finance-text" style="color:var(--status-done);">واصل: ${totalPaid.toLocaleString()} د.ع</div>
+                            <div class="finance-text" style="color:${totalRest > 0 ? 'var(--danger-color)' : 'var(--text-muted)'};">ديون: ${totalRest.toLocaleString()} د.ع</div>
+                        </td>
+                        <td>
+                            <div style="font-size:12px; font-weight:600;">📱 ${p.contact}</div>
+                            <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">📝 ${latest.notes}</div>
+                        </td>
                     `;
 
-                    const xrayCell = newRow.querySelector('.xray-cell');
-                    if (p.xray) {
-                        xrayCell.innerHTML = `<img src="${p.xray}" class="preview-img" alt="Xray Image">`;
-                        xrayCell.querySelector('.preview-img').addEventListener('click', function() {
+                    // ميزة عرض الأشعة السريعة الفورية عبر أيقونة العين دون فتح كامل السجل
+                    const xrayCell = tr.querySelector('.xray-action-cell');
+                    if (latest.xray) {
+                        xrayCell.innerHTML = `<button type="button" class="view-xray-btn" title="عرض الأشعة فوراً">👁️‍🗨️ صُورة</button>`;
+                        xrayCell.querySelector('.view-xray-btn').addEventListener('click', function() {
                             const imgWindow = window.open();
-                            imgWindow.document.body.innerHTML = `<img src="${this.src}" style="max-width:100%; height:auto; display:block; margin:20px auto; box-shadow:0 4px 12px rgba(0,0,0,0.3); border-radius:8px;">`;
+                            imgWindow.document.body.innerHTML = `<div style="background:#111; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;"><img src="${latest.xray}" style="max-height:95vh; max-width:95vw; box-shadow:0 0 20px rgba(0,0,0,0.6); border-radius:6px;"></div>`;
                         });
                     } else {
-                        xrayCell.innerHTML = `<span style="color:var(--text-muted); font-style:italic; font-size:13px;">لم تدرج أشعة</span>`;
+                        xrayCell.innerHTML = `<span style="color:var(--text-muted); font-size:11px; font-style:italic;">لا توجد</span>`;
                     }
 
-                    tableBody.appendChild(newRow);
+                    tableBody.appendChild(tr);
                 });
             }
 
-            // البحث الفوري
-            document.getElementById('patientSearch').addEventListener('input', function() {
-                const searchValue = this.value.trim().toLowerCase();
-                const rows = document.querySelectorAll('#clinicTable tbody tr:not(#noDataRow)');
+            // تحديث عدادات وحسابات القوائم الجانبية تلقائياً لفرز دقيق وحيوي للملفات
+            function updateSidebarBadges() {
+                document.getElementById('count-all').textContent = patientsData.length;
                 
-                rows.forEach(row => {
-                    const nameText = row.querySelector('.patient-name').textContent.toLowerCase();
-                    if (nameText.includes(searchValue)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
+                document.getElementById('count-h').textContent = patientsData.filter(p => p.visits[p.visits.length-1].examType.includes('حشوة')).length;
+                document.getElementById('count-q').textContent = patientsData.filter(p => p.visits[p.visits.length-1].examType.includes('قلع')).length;
+                document.getElementById('count-t').textContent = patientsData.filter(p => p.visits[p.visits.length-1].examType.includes('تقويم')).length;
+                document.getElementById('count-tar').textContent = patientsData.filter(p => p.visits[p.visits.length-1].examType.includes('تركيب')).length;
+
+                document.getElementById('count-wait').textContent = patientsData.filter(p => p.status === 'في الانتظار').length;
+                document.getElementById('count-now').textContent = patientsData.filter(p => p.status === 'جاري الفحص الآن').length;
+                document.getElementById('count-done').textContent = patientsData.filter(p => p.status === 'مكتمل الفحص').length;
+            }
+
+            // البحث الفوري الذكي بالاسم أو التاريخ العارض في اللوحة
+            document.getElementById('patientSearch').addEventListener('input', function() {
+                const val = this.value.trim().toLowerCase();
+                const rows = document.querySelectorAll('#clinicTable tbody tr:not(#noDataRow)');
+                rows.forEach(r => {
+                    const text = r.textContent.toLowerCase();
+                    r.style.display = text.includes(val) ? '' : 'none';
                 });
             });
 
-            // فلترة الأقسام الجانبية
-            const menuItems = document.querySelectorAll('#sidebarMenu .menu-item');
-            const tableTitle = document.getElementById('tableTitle');
-
-            menuItems.forEach(item => {
+            // تفعيل وتحريك أزرار التصفية الجانبية
+            const allMenuItems = document.querySelectorAll('.sidebar .menu-item');
+            allMenuItems.forEach(item => {
                 item.addEventListener('click', function() {
-                    menuItems.forEach(i => i.classList.remove('active'));
+                    allMenuItems.forEach(i => i.classList.remove('active'));
                     this.classList.add('active');
 
-                    const filterType = this.getAttribute('data-filter');
-                    const rows = document.querySelectorAll('#clinicTable tbody tr');
+                    const type = this.getAttribute('data-filter-type');
+                    const val = this.getAttribute('data-filter-val');
                     
-                    if (rows.length === 0 || (rows.length === 1 && rows[0].id === 'noDataRow')) return;
-
-                    if (filterType === 'all') {
-                        tableTitle.textContent = "سجلات المرضى ومتابعة الحالات الطبية";
-                        rows.forEach(row => { if(row.id !== 'noDataRow') row.style.display = ''; });
-                    } 
-                    else if (filterType === 'xray') {
-                        tableTitle.textContent = "قسم الأشعة والتحاليل - المرضى الذين لديهم أشعة مرفقة";
-                        rows.forEach(row => {
-                            if(row.id !== 'noDataRow') {
-                                row.style.display = row.getAttribute('data-has-xray') === 'true' ? '' : 'none';
-                            }
-                        });
-                    } 
-                    else if (filterType === 'meds') {
-                        tableTitle.textContent = "قسم الصيدلية والأدوية - المرضى المستحقين للوصفات العلاجية";
-                        rows.forEach(row => {
-                            if(row.id !== 'noDataRow') {
-                                row.style.display = row.getAttribute('data-has-meds') === 'true' ? '' : 'none';
-                            }
-                        });
-                    }
+                    renderTable(type, val);
                 });
             });
         });
