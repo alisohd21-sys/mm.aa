@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بوابة إدارة عيادة الأمان الطبية المتقدمة - النسخة الإحترافية</title>
+    <title>بوابة إدارة عيادة الأمان الطبية المتقدمة - الإصدار التفاعلي الشامل</title>
     <style>
         :root {
             --bg-primary: #f4f7f6;
@@ -23,6 +23,7 @@
             --status-bg-active: #eaf2f8;
             --status-bg-done: #e8f8f5;
             --danger-color: #e74c3c;
+            --danger-hover: #c0392b;
         }
 
         [data-theme="dark"] {
@@ -278,7 +279,7 @@
             width: 100%;
             border-collapse: collapse;
             text-align: right;
-            min-width: 1300px;
+            min-width: 1400px;
         }
 
         .clinic-table th {
@@ -327,12 +328,26 @@
             display: inline-block;
         }
 
+        .xray-container-cell {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
         .view-xray-btn {
-            background: none;
-            border: none;
+            background-color: rgba(0, 168, 150, 0.1);
+            border: 1px solid var(--accent-color);
             cursor: pointer;
-            font-size: 18px;
+            font-size: 12px;
             color: var(--accent-color);
+            padding: 3px 6px;
+            border-radius: 4px;
+        }
+
+        .view-xray-btn:hover {
+            background-color: var(--accent-color);
+            color: white;
         }
 
         .timeline-counter {
@@ -350,6 +365,80 @@
             font-size: 13px;
         }
 
+        .btn-delete-row {
+            background-color: transparent;
+            border: 1px solid var(--danger-color);
+            color: var(--danger-color);
+            padding: 5px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .btn-delete-row:hover {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        /* مخطط وفهرس تصميم الأسنان التفاعلي */
+        .dental-chart-container {
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+            background-color: rgba(0,0,0,0.01);
+            margin-bottom: 5px;
+        }
+
+        .chart-title {
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: var(--text-primary);
+            text-align: center;
+        }
+
+        .jaw-row {
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            margin-bottom: 10px;
+        }
+
+        .tooth-box {
+            width: 32px;
+            height: 38px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-surface);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .tooth-box .t-num {
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .tooth-box .t-icon {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        .tooth-box.selected {
+            background-color: var(--accent-color);
+            border-color: var(--accent-hover);
+            color: white;
+        }
+
+        .tooth-box.selected .t-icon {
+            color: white;
+        }
+
         /* النافذة المنبثقة */
         .modal-overlay {
             position: fixed;
@@ -364,7 +453,7 @@
 
         .modal-box {
             background-color: var(--bg-surface);
-            width: 650px; max-width: 95%;
+            width: 700px; max-width: 95%;
             border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             border: 1px solid var(--border-color); overflow: hidden;
         }
@@ -376,7 +465,7 @@
 
         .modal-title { font-size: 15px; font-weight: 600; }
         .modal-close { background: none; border: none; font-size: 22px; color: var(--text-muted); cursor: pointer; }
-        .modal-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 75vh; overflow-y: auto; }
+        .modal-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; max-height: 78vh; overflow-y: auto; }
         .form-group { display: flex; flex-direction: column; gap: 5px; }
         .form-group label { font-size: 12px; font-weight: 600; }
         .form-control { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; background-color: var(--bg-primary); color: var(--text-primary); font-size: 13.5px; outline: none; }
@@ -387,13 +476,22 @@
         .btn-secondary { background-color: transparent; border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 6px; cursor: pointer; color: var(--text-primary); font-weight: 600; }
         .btn-submit { background-color: var(--accent-color); color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
 
-        /* سجل التاريخ الطبي والخط الزمني للزيارات داخل الخلايا */
         .visit-history-box {
             font-size: 11px;
             color: var(--text-muted);
             border-top: 1px dashed var(--border-color);
             margin-top: 5px;
             padding-top: 4px;
+        }
+
+        .selected-teeth-badge {
+            background-color: var(--border-color);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 3px;
         }
 
         .footer { margin-top: 40px; text-align: center; font-size: 12px; color: var(--text-muted); }
@@ -429,7 +527,7 @@
         </ul>
     </aside>
 
-    <!-- المحتوى الرئيسي للموقع -->
+    <!-- المحتوى الرئيسي -->
     <main class="main-content">
         <header class="header">
             <div class="page-title">
@@ -449,7 +547,7 @@
             <section class="search-section">
                 <div class="search-wrapper">
                     <span class="search-icon">🔍</span>
-                    <input type="text" id="patientSearch" class="search-input" placeholder="ابحث باسم المريض، نوع العلاج، أو العارض الصحي الدائم...">
+                    <input type="text" id="patientSearch" class="search-input" placeholder="ابحث باسم المريض، رقم السن المعالج، أو التاريخ الطبي الدائم...">
                 </div>
             </section>
 
@@ -463,21 +561,22 @@
                     <table class="clinic-table" id="clinicTable">
                         <thead>
                             <tr>
-                                <th>تسلسل الملف</th>
+                                <th>تسلسل</th>
                                 <th>اسم المريض الكامل</th>
                                 <th>العمر</th>
-                                <th>التاريخ الطبي العام (Medical History)</th>
-                                <th>حالة الزيارة الأحدث</th>
-                                <th>النوع والإجراء</th>
-                                <th>الأشعة</th>
+                                <th>التاريخ الطبي العام</th>
+                                <th>الحالة</th>
+                                <th>الإجراء والأسنان المعالجة</th>
+                                <th>الأشعة (متعدد)</th>
                                 <th>العلاجات الموصوفة</th>
-                                <th>الحسابات والديون (إجمالي / واصل / متبقي)</th>
-                                <th>التواصل والملاحظات الجانبية</th>
+                                <th>الحسابات والديون</th>
+                                <th>الملاحظات والتواصل</th>
+                                <th>إدارة</th>
                             </tr>
                         </thead>
                         <tbody id="tableBody">
                             <tr id="noDataRow">
-                                <td colspan="10" class="no-data-msg">لا توجد سجلات مرضى حالياً، اضغط على زر "إضافة مريض جديد" للبدء.</td>
+                                <td colspan="11" class="no-data-msg">لا توجد سجلات مرضى حالياً، اضغط على زر "إضافة مريض جديد" للبدء.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -490,7 +589,7 @@
         </div>
     </main>
 
-    <!-- النافذة المنبثقة لإدخال البيانات -->
+    <!-- النافذة المنبثقة لإدخل البيانات -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-box">
             <div class="modal-header">
@@ -501,18 +600,34 @@
                 <div class="modal-body">
                     <div class="form-row">
                         <div class="form-group">
-                            <label>اسم المريض الكامل (ثلاثي دقيق لتجنب تكرار الملف) *</label>
-                            <input type="text" id="pName" class="form-control" required placeholder="مثال: علي محمد محمود">
+                            <label>اسم المريض الكامل *</label>
+                            <input type="text" id="pName" class="form-control" required placeholder="اسم المريض الثلاثي">
                         </div>
                         <div class="form-group">
                             <label>العمر *</label>
-                            <input type="text" id="pAge" class="form-control" required placeholder="مثال: 24">
+                            <input type="text" id="pAge" class="form-control" required placeholder="مثال: 27">
                         </div>
                     </div>
                     <div class="form-group">
                         <label>التاريخ الطبي العام (الأمراض المزمنة والحساسية) *</label>
-                        <input type="text" id="pMedHistory" class="form-control" required placeholder="مثال: سكري، ضغط، حساسية بنسلين (أو اكتب: سليم لا يعاني)">
+                        <input type="text" id="pMedHistory" class="form-control" required placeholder="مثال: سكري، ضغط، حساسية بنسلين (أو اكتب: سليم)">
                     </div>
+
+                    <!-- نظام أسنان الإنسان التفاعلي (الفك العلوي والسفلي) -->
+                    <div class="dental-chart-container">
+                        <div class="chart-title">مخطط أسنان الإنسان التفاعلي - اضغط لتحديد الأسنان المشمولة بالإجراء الحالي</div>
+                        
+                        <div class="chart-title" style="font-size:11px; margin-bottom:5px; color:var(--accent-color);">🦷 الفك العلوي (Upper Jaw)</div>
+                        <div class="jaw-row" id="upperJaw">
+                            <!-- الأسنان من 1 إلى 16 -->
+                        </div>
+
+                        <div class="chart-title" style="font-size:11px; margin-top:10px; margin-bottom:5px; color:var(--accent-color);">🦷 الفك السفلي (Lower Jaw)</div>
+                        <div class="jaw-row" id="lowerJaw">
+                            <!-- الأسنان من 17 إلى 32 -->
+                        </div>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group">
                             <label>نوع الفحص والإجراء الحالي *</label>
@@ -536,8 +651,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>أشعة الأسنان (اضغط لرفع صورة الأشعة المرفقة إن وجدت)</label>
-                        <input type="file" id="pXray" class="form-control" accept="image/*">
+                        <label>رفع صور الأشعة (يمكنك اختيار ملفات متعددة معاً) 📁</label>
+                        <input type="file" id="pXray" class="form-control" accept="image/*" multiple>
                     </div>
                     <div class="form-group">
                         <label>الوصفة الدوائية للزيارة الحالية</label>
@@ -554,7 +669,7 @@
                         </div>
                         <div class="form-group">
                             <label>المتبقي (الديون)</label>
-                            <input type="text" id="pRest" class="form-control" style="font-family:monospace;" readonly value="0">
+                            <input type="text" id="pRest" class="form-control" readonly value="0">
                         </div>
                     </div>
                     <div class="form-row">
@@ -563,8 +678,8 @@
                             <input type="text" id="pContact" class="form-control" required placeholder="07XXXXXXXX">
                         </div>
                         <div class="form-group">
-                            <label>ملاحظات الطبيب الجانبية وأرقام الأسنان</label>
-                            <input type="text" id="pNotes" class="form-control" placeholder="رقم السن أو الجلسة الحالية...">
+                            <label>ملاحظات الطبيب الجانبية</label>
+                            <input type="text" id="pNotes" class="form-control" placeholder="تفاصيل مكملة...">
                         </div>
                     </div>
                 </div>
@@ -593,7 +708,43 @@
                 themeText.textContent = (targetTheme === 'dark') ? 'المود الفاتح ☀️' : 'المود الداكن 🌙';
             });
 
-            // حساب المتبقي تلقائياً في الفورم أثناء الكتابة
+            // توليد مخطط الأسنان بشكل برمجي (التسمية الفدرالية العالمية للأطباء)
+            const upperJawContainer = document.getElementById('upperJaw');
+            const lowerJawContainer = document.getElementById('lowerJaw');
+            let selectedTeeth = [];
+
+            // الفك العلوي (من 1 إلى 16 من اليمين لليسار)
+            for(let i = 1; i <= 16; i++) {
+                createToothElement(i, upperJawContainer);
+            }
+            // الفك السفلي (من 17 إلى 32)
+            for(let i = 17; i <= 32; i++) {
+                createToothElement(i, lowerJawContainer);
+            }
+
+            function createToothElement(num, container) {
+                const tooth = document.createElement('div');
+                tooth.className = 'tooth-box';
+                tooth.setAttribute('data-tooth-id', num);
+                tooth.innerHTML = `<span class="t-num">${num}</span><span class="t-icon">🦷</span>`;
+                tooth.addEventListener('click', function() {
+                    this.classList.toggle('selected');
+                    const id = this.getAttribute('data-tooth-id');
+                    if (this.classList.contains('selected')) {
+                        selectedTeeth.push(id);
+                    } else {
+                        selectedTeeth = selectedTeeth.filter(t => t !== id);
+                    }
+                });
+                container.appendChild(tooth);
+            }
+
+            function clearSelectedTeeth() {
+                selectedTeeth = [];
+                document.querySelectorAll('.tooth-box').forEach(t => t.classList.remove('selected'));
+            }
+
+            // حساب المتبقي التلقائي في الفواتير
             const costInput = document.getElementById('pCost');
             const paidInput = document.getElementById('pPaid');
             const restInput = document.getElementById('pRest');
@@ -606,7 +757,7 @@
             costInput.addEventListener('input', calculateRest);
             paidInput.addEventListener('input', calculateRest);
 
-            // مصفوفة المرضى الدائمين المسترجعة من الذاكرة المحلية
+            // استعادة السجلات من localStorage
             let patientsData = JSON.parse(localStorage.getItem('permanent_dentist_records')) || [];
 
             const modalOverlay = document.getElementById('modalOverlay');
@@ -617,15 +768,24 @@
             const tableBody = document.getElementById('tableBody');
             const noDataRow = document.getElementById('noDataRow');
 
-            openModalBtn.addEventListener('click', () => { modalOverlay.classList.add('active'); calculateRest(); });
-            function closeModal() { modalOverlay.classList.remove('active'); addPatientForm.reset(); }
+            openModalBtn.addEventListener('click', () => { 
+                modalOverlay.classList.add('active'); 
+                calculateRest(); 
+                clearSelectedTeeth();
+            });
+            
+            function closeModal() { 
+                modalOverlay.classList.remove('active'); 
+                addPatientForm.reset(); 
+                clearSelectedTeeth();
+            }
             closeModalBtn.addEventListener('click', closeModal);
             cancelModalBtn.addEventListener('click', closeModal);
 
             renderTable();
             updateSidebarBadges();
 
-            // معالجة وحفظ الفورم للزيارة
+            // حفظ النموذج ومعالجة رفع ملفات الأشعة المتعددة
             addPatientForm.addEventListener('submit', function(e) {
                 e.preventDefault();
 
@@ -639,50 +799,59 @@
                 const paid = parseFloat(paidInput.value) || 0;
                 const rest = cost - paid;
                 const contact = document.getElementById('pContact').value.trim();
-                const notes = document.getElementById('pNotes').value.trim() || 'لا توجد ملاحظات';
-                const xrayFile = document.getElementById('pXray').files[0];
+                const notes = document.getElementById('pNotes').value.trim() || 'لا توجد ملاحظات إضافية';
+                
+                const xrayFiles = document.getElementById('pXray').files;
 
-                // إنشاء التاريخ التلقائي الفوري بالوقت والساعة
+                // التقاط التاريخ والوقت تلقائياً بالكامل
                 const now = new Date();
                 const autoTimestamp = `${now.getFullYear()}/${now.getMonth()+1}/${now.getDate()} - ${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-                if (xrayFile) {
-                    const reader = new FileReader();
-                    reader.onload = function(event) {
-                        commitData(name, age, medHistory, examType, status, meds, cost, paid, rest, contact, notes, autoTimestamp, event.target.result);
-                    };
-                    reader.readAsDataURL(xrayFile);
+                // معالجة قراءة صور الأشعة المتعددة كـ Base64 بالتوازي
+                if (xrayFiles.length > 0) {
+                    let loadedImages = [];
+                    let processedCount = 0;
+
+                    for(let i=0; i<xrayFiles.length; i++) {
+                        const reader = new FileReader();
+                        reader.onload = function(event) {
+                            loadedImages.push(event.target.result);
+                            processedCount++;
+                            if (processedCount === xrayFiles.length) {
+                                commitData(name, age, medHistory, examType, status, meds, cost, paid, rest, contact, notes, autoTimestamp, loadedImages);
+                            }
+                        };
+                        reader.readAsDataURL(xrayFiles[i]);
+                    }
                 } else {
-                    commitData(name, age, medHistory, examType, status, meds, cost, paid, rest, contact, notes, autoTimestamp, null);
+                    commitData(name, age, medHistory, examType, status, meds, cost, paid, rest, contact, notes, autoTimestamp, []);
                 }
             });
 
-            function commitData(name, age, medHistory, examType, status, meds, cost, paid, rest, contact, notes, timestamp, xrayData) {
-                // البحث عما إذا كان المريض يمتلك ملفاً دائماً مسبقاً (عن طريق الإسم)
+            function commitData(name, age, medHistory, examType, status, meds, cost, paid, rest, contact, notes, timestamp, xrayArray) {
                 let existingPatient = patientsData.find(p => p.name.toLowerCase() === name.toLowerCase());
 
                 const newVisit = {
                     timestamp: timestamp,
                     examType: examType,
+                    teeth: [...selectedTeeth], // مصفوفة الأسنان المحددة تفاعلياً
                     meds: meds,
                     cost: cost,
                     paid: paid,
                     rest: rest,
                     notes: notes,
-                    xray: xrayData
+                    xrays: xrayArray // تخزين مصفوفة صور الأشعة
                 };
 
                 if (existingPatient) {
-                    // تحديث الملف الدائم وتكديس الزيارة الجديدة داخله
                     existingPatient.age = age;
                     existingPatient.medHistory = medHistory;
                     existingPatient.status = status;
                     existingPatient.contact = contact;
                     existingPatient.visits.push(newVisit);
                 } else {
-                    // إنشاء ملف دائم جديد كلياً
                     const newPatientRecord = {
-                        id: patientsData.length + 1,
+                        id: patientsData.length > 0 ? Math.max(...patientsData.map(p => p.id)) + 1 : 1,
                         name: name,
                         age: age,
                         medHistory: medHistory,
@@ -699,11 +868,10 @@
                 closeModal();
             }
 
-            // بناء الجدول بذكاء وعرض الأيقونات والملفات الدائمة والزيارات المكدسة
+            // بناء وعرض الجدول الديناميكي المتقدم
             function renderTable(filterType = 'all', filterVal = 'all') {
                 tableBody.innerHTML = '';
                 
-                // تصفية وعزل البيانات بناء على كود الفلترة المختار
                 let filteredData = patientsData.filter(p => {
                     const lastVisit = p.visits[p.visits.length - 1];
                     if (filterType === 'all') return true;
@@ -721,10 +889,8 @@
                 noDataRow.style.display = 'none';
 
                 filteredData.forEach(p => {
-                    // جلب تفاصيل أحدث زيارة لعرضها بالوجهة الرئيسية
                     const latest = p.visits[p.visits.length - 1];
                     
-                    // حساب إجماليات الفواتير والديون التراكمية للمريض في ملفه
                     let totalCost = 0, totalPaid = 0, totalRest = 0;
                     p.visits.forEach(v => { totalCost += v.cost; totalPaid += v.paid; totalRest += v.rest; });
 
@@ -734,47 +900,75 @@
                     if (p.status === 'جاري الفحص الآن') statusClass = 'status-active';
                     if (p.status === 'مكتمل الفحص') statusClass = 'status-done';
 
+                    // صياغة أرقام الأسنان بشكل منظم أو إظهار فحص كلي
+                    const teethDisplay = latest.teeth && latest.teeth.length > 0 
+                        ? `<span class="selected-teeth-badge">الأسنان المعالجة: ${latest.teeth.join(', ')}</span>` 
+                        : `<span style="font-size:11px; color:var(--text-muted);">لم يتم تحديد أسنان معينة</span>`;
+
                     tr.innerHTML = `
                         <td><div class="patient-seq">${p.id}</div></td>
                         <td>
                             <strong>${p.name}</strong> 
-                            <span class="timeline-counter">مجموع الزيارات: ${p.visits.length}</span>
-                            <div class="visit-history-box">⏳ أحدث زيارة: ${latest.timestamp}</div>
+                            <span class="timeline-counter">الزيارات: ${p.visits.length}</span>
+                            <div class="visit-history-box">📅 ${latest.timestamp}</div>
                         </td>
                         <td>${p.age} سنة</td>
                         <td><span class="med-history-tag">${p.medHistory}</span></td>
                         <td><span class="status-badge ${statusClass}">${p.status}</span></td>
-                        <td><span style="color:var(--accent-color); font-weight:600;">${latest.examType}</span></td>
-                        <td class="xray-action-cell" style="text-align:center;"></td>
+                        <td>
+                            <div style="font-weight:600; color:var(--accent-color);">${latest.examType}</div>
+                            ${teethDisplay}
+                        </td>
+                        <td><div class="xray-container-cell" id="xrays-cell-${p.id}"></div></td>
                         <td>${latest.meds}</td>
                         <td>
-                            <div class="finance-text" style="color:var(--text-primary);">كلي: ${totalCost.toLocaleString()} د.ع</div>
-                            <div class="finance-text" style="color:var(--status-done);">واصل: ${totalPaid.toLocaleString()} د.ع</div>
-                            <div class="finance-text" style="color:${totalRest > 0 ? 'var(--danger-color)' : 'var(--text-muted)'};">ديون: ${totalRest.toLocaleString()} د.ع</div>
+                            <div class="finance-text" style="color:var(--text-primary);">كلي: ${totalCost.toLocaleString()}</div>
+                            <div class="finance-text" style="color:var(--status-done);">واصل: ${totalPaid.toLocaleString()}</div>
+                            <div class="finance-text" style="color:${totalRest > 0 ? 'var(--danger-color)' : 'var(--text-muted)'};">ديون: ${totalRest.toLocaleString()}</div>
                         </td>
                         <td>
-                            <div style="font-size:12px; font-weight:600;">📱 ${p.contact}</div>
-                            <div style="font-size:12px; color:var(--text-muted); margin-top:4px;">📝 ${latest.notes}</div>
+                            <div style="font-size:11px; font-weight:600;">📱 ${p.contact}</div>
+                            <div style="font-size:11px; color:var(--text-muted); margin-top:4px;">📝 ${latest.notes}</div>
+                        </td>
+                        <td>
+                            <button type="button" class="btn-delete-row" data-id="${p.id}">حذف 🗑️</button>
                         </td>
                     `;
 
-                    // ميزة عرض الأشعة السريعة الفورية عبر أيقونة العين دون فتح كامل السجل
-                    const xrayCell = tr.querySelector('.xray-action-cell');
-                    if (latest.xray) {
-                        xrayCell.innerHTML = `<button type="button" class="view-xray-btn" title="عرض الأشعة فوراً">👁️‍🗨️ صُورة</button>`;
-                        xrayCell.querySelector('.view-xray-btn').addEventListener('click', function() {
-                            const imgWindow = window.open();
-                            imgWindow.document.body.innerHTML = `<div style="background:#111; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;"><img src="${latest.xray}" style="max-height:95vh; max-width:95vw; box-shadow:0 0 20px rgba(0,0,0,0.6); border-radius:6px;"></div>`;
+                    // حقن كود استعراض الأشعة المتعددة الفوري
+                    const xrayCellContainer = tr.querySelector(`#xrays-cell-${p.id}`);
+                    if (latest.xrays && latest.xrays.length > 0) {
+                        latest.xrays.forEach((imgData, index) => {
+                            const btn = document.createElement('button');
+                            btn.type = 'button';
+                            btn.className = 'view-xray-btn';
+                            btn.innerHTML = `👁️ أشعة ${index + 1}`;
+                            btn.addEventListener('click', function() {
+                                const imgWindow = window.open();
+                                imgWindow.document.body.innerHTML = `<div style="background:#111; display:flex; justify-content:center; align-items:center; height:100vh; margin:0;"><img src="${imgData}" style="max-height:95vh; max-width:95vw; box-shadow:0 0 20px rgba(0,0,0,0.6); border-radius:6px;"></div>`;
+                            });
+                            xrayCellContainer.appendChild(btn);
                         });
                     } else {
-                        xrayCell.innerHTML = `<span style="color:var(--text-muted); font-size:11px; font-style:italic;">لا توجد</span>`;
+                        xrayCellContainer.innerHTML = `<span style="color:var(--text-muted); font-size:11px; font-style:italic;">لا توجد</span>`;
                     }
+
+                    // ربط حدث زر الحذف
+                    tr.querySelector('.btn-delete-row').addEventListener('click', function() {
+                        const targetId = parseInt(this.getAttribute('data-id'));
+                        if(confirm("هل أنت متأكد من رغبتك في حذف ملف هذا المريض نهائياً من النظام؟")) {
+                            patientsData = patientsData.filter(pt => pt.id !== targetId);
+                            localStorage.setItem('permanent_dentist_records', JSON.stringify(patientsData));
+                            renderTable(filterType, filterVal);
+                            updateSidebarBadges();
+                        }
+                    });
 
                     tableBody.appendChild(tr);
                 });
             }
 
-            // تحديث عدادات وحسابات القوائم الجانبية تلقائياً لفرز دقيق وحيوي للملفات
+            // تحديث شارات العدادات في القائمة الجانبية
             function updateSidebarBadges() {
                 document.getElementById('count-all').textContent = patientsData.length;
                 
@@ -788,17 +982,16 @@
                 document.getElementById('count-done').textContent = patientsData.filter(p => p.status === 'مكتمل الفحص').length;
             }
 
-            // البحث الفوري الذكي بالاسم أو التاريخ العارض في اللوحة
+            // البحث الفوري الذكي والربط المتشعب لخلية البحث
             document.getElementById('patientSearch').addEventListener('input', function() {
                 const val = this.value.trim().toLowerCase();
                 const rows = document.querySelectorAll('#clinicTable tbody tr:not(#noDataRow)');
                 rows.forEach(r => {
-                    const text = r.textContent.toLowerCase();
-                    r.style.display = text.includes(val) ? '' : 'none';
+                    r.style.display = r.textContent.toLowerCase().includes(val) ? '' : 'none';
                 });
             });
 
-            // تفعيل وتحريك أزرار التصفية الجانبية
+            // تفعيل وتحريك روابط التصفية الجانبية للعيادة
             const allMenuItems = document.querySelectorAll('.sidebar .menu-item');
             allMenuItems.forEach(item => {
                 item.addEventListener('click', function() {
