@@ -127,7 +127,7 @@
         .search-input { width: 100%; padding: 12px 40px 12px 15px; font-size: 14px; border: 1px solid var(--border-color); border-radius: 8px; background-color: var(--bg-primary); color: var(--text-primary); outline: none; }
         .search-icon { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
 
-        /* حاوية تحميل التطبيق الجديدة */
+        /* حاوية تحميل التطبيق */
         .download-app-card {
             background: linear-gradient(135deg, #1a2e40, #00a896);
             color: white; padding: 20px; border-radius: 10px;
@@ -291,14 +291,13 @@
 
         <div class="dashboard-container">
             
-            <!-- قسم تحميل التطبيق الفوري الجديد -->
+            <!-- قسم تحميل التطبيق الفوري المحدث برابط الـ APK -->
             <section class="download-app-card">
                 <div class="download-info">
-                    <h3>تحميل تطبيق عيادة الأمان لسطح المكتب والهاتف الذكي 📱💻</h3>
-                    <p>قم بتحميل التطبيق الآن للحصول على مزامنة البيانات السريعة في الخلفية والوصول السريع بدون إنترنت.</p>
+                    <h3>تحميل تطبيق عيادة الأمان لإدارة العيادات (نسخة الهاتف المحمول) 📱</h3>
+                    <p>قم بتنزيل ملف الـ APK المباشر الآن للوصول السريع إلى قاعدة بيانات المرضى من هاتف الأندرويد الخاص بك.</p>
                 </div>
-                <!-- يمكنك تغيير رابط الـ href بالأسفل برابط التحميل المباشر الخاص بك -->
-                <a href="https://example.com/download/clinic-app.exe" class="btn-download" id="appDownloadLink">
+                <a href="25B9%25D9%258A%25D8%25A7%25D8%25A4%25D9%2584%25D8%25A3%25D9%2585%25D8%25A7%25D9%2586.apk/file" class="btn-download" id="appDownloadLink">
                     <span>تحميل التطبيق الآن 📥</span>
                 </a>
             </section>
@@ -544,7 +543,7 @@
                 themeText.textContent = (targetTheme === 'dark') ? 'المود الفاتح ☀️' : 'المود الداكن 🌙';
             });
 
-            // توليد الترقيم الأصلي المبسط (من 1 إلى 8 لـكل ربع بشكل مستقل)
+            // توليد الترقيم الأصلي المبسط (من 1 إلى 8 لكل ربع بشكل مستقل)
             // ربع علوي يمين (من 8 إلى 1 زحفاً للوسط)
             for(let i = 8; i >= 1; i--) createToothElement(i, 'علوي-يمين', q1Container);
             // ربع علوي يسار (من 1 إلى 8 زحفاً للخارج)
